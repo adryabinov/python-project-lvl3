@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "hexlet-code"
+version = "0.1.0"
+description = "console tool for download web pages"
+authors = ["andrejrabinov <andryabinov@gmail.com>"]
+license = "MIT"
+
+packages = [
+    { include = "page_loader" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^3.8.4"
+pytest = "^6.2.2"
+pytest-cov = "^2.11.1"
+
+[tool.poetry.scripts]
+gendiff = "page_loade.scripts.page_loade:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
