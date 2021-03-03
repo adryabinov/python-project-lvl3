@@ -1,0 +1,33 @@
+name: Python CI
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+        # make depends on poetry
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          make install
+      - name: Run linter
+        run: |
+          make lint
+      - name: Run Tests
+        uses: paambaati/codeclimate-action@v2.7.4
+        with:
+          coverageCommand: make test
+          debug: true
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.COCL_KEY }}
