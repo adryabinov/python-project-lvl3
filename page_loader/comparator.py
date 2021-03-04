@@ -1,5 +1,21 @@
 import os
 import re
+import urllib.request, urllib.error, urllib.parse
+
+def load_url(url: str) -> str:
+
+    response = urllib.request.urlopen(url)
+    webContent = response.read()
+
+    return str(webContent)
+
+
+
+def save_content(content, path: str):
+    with open(path, "w+") as f:
+        return f.write(content)
+
+
 
 def download(url: str, path: str) -> str:
 
@@ -12,6 +28,8 @@ def download(url: str, path: str) -> str:
         abs_path,
         url_to_filename(url)
     )
+
+    save_content(load_url(url), path_to_file)
 
     return str(path_to_file)
 
