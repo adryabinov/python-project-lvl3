@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-
+from page_loader.argparse import parse_arguments
 
 def main():
-    pass
+    args = parse_arguments()
+    print(args)
 
 
 if __name__ == '__main__':
