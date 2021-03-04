@@ -1,6 +1,9 @@
 import os
 import re
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.error
+import urllib.parse
+
 
 def load_url(url: str) -> str:
 
@@ -10,11 +13,9 @@ def load_url(url: str) -> str:
     return str(webContent)
 
 
-
 def save_content(content, path: str):
     with open(path, "w+") as f:
         return f.write(content)
-
 
 
 def download(url: str, path: str) -> str:
@@ -22,7 +23,7 @@ def download(url: str, path: str) -> str:
     abs_path = os.path.abspath(path)
 
     if not os.path.isdir(abs_path):
-        raise IOError (f'{abs_path} is not found')
+        raise IOError(f'{abs_path} is not found')
 
     path_to_file = os.path.join(
         abs_path,
@@ -32,6 +33,7 @@ def download(url: str, path: str) -> str:
     save_content(load_url(url), path_to_file)
 
     return str(path_to_file)
+
 
 def url_to_filename(url: str) -> str:
 
