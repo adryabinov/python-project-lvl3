@@ -1,16 +1,12 @@
 import os
 import re
-import urllib.request
-import urllib.error
-import urllib.parse
+import requests
 
 
 def load_url(url: str) -> str:
 
-    response = urllib.request.urlopen(url)
-    webContent = response.read()
-
-    return str(webContent)
+    response = requests.get(url)
+    return response.text
 
 
 def save_content(content, path: str):
