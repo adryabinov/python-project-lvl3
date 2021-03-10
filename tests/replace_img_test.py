@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from bs4 import BeautifulSoup
-from page_loader.comparator import get_html, soup
+from page_loader.comparator import soup
 from page_loader.comparator import replace_img
 
 
@@ -19,6 +19,7 @@ def open_file(path):
 
 
 soup = BeautifulSoup(open_file(make_path('replace_img_test.html')))
+out_soup = BeautifulSoup(open_file(make_path('replace_img_test_replaced.html')))
 
 def test_replace_img():
-    assert replace_img(soup) == soup
+    assert replace_img(soup, 'some-domain.ru') == out_soup
