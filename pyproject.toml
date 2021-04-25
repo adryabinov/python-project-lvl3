@@ -6,7 +6,7 @@ authors = ["andrejrabinov <andryabinov@gmail.com>"]
 license = "MIT"
 
 packages = [
-    { include = "page_loader" },
+    { include = "page-loader" },
 ]
 
 [tool.poetry.dependencies]
