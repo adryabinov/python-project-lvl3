@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "hexlet-code"
+name = "page-loader"
 version = "0.1.0"
 description = "console tool for download web pages"
 authors = ["andrejrabinov <andryabinov@gmail.com>"]
 license = "MIT"
 
 packages = [
-    { include = "page-loader" },
+    { include = "page_loader" },
 ]
 
 [tool.poetry.dependencies]
