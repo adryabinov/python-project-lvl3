@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "page-loader"
+name = "hexlet-code"
 version = "0.1.0"
 description = "console tool for download web pages"
 authors = ["andrejrabinov <andryabinov@gmail.com>"]
