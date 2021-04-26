@@ -115,4 +115,3 @@ def test_page_loader(requests_mock):
                 fixture_resource_path, "rb"
             )
             assert resource_content == expected_resource_content
-
