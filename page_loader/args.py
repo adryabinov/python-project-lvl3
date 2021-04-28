@@ -2,7 +2,7 @@ import argparse
 import os
 
 
-def parse_arguments():
+def parse():
     parser = argparse.ArgumentParser(
         description="Downloads html page with resources"
     )
