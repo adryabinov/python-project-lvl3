@@ -1,52 +1,20 @@
 import tempfile
 import os
-from urllib.parse import urljoin
+import stat
+import json
 import pytest
 import requests
-import pathlib
+from urllib.parse import urljoin
+
+import tests.fixture as fixture
+import tests.file as file
 
 from page_loader import download
 
-FIXTURES_DIR = "fixtures"
 
 URL = "https://this-domain.com"
-ERROR_URL = "https://error.com"
-
-OUT_HTML_NAME = "this-domain-com.html"
-RES_DIR_NAME = "this-domain-com_files"
-
-RESOURCES = [
-    {
-        "file_name": "relative.jpg",
-        "file_name_out": "this-domain-com-res-relative.jpg",
-        "url": "/res/relative.jpg"
-    },
-    {
-        "file_name": "absolute.jpg",
-        "file_name_out": "this-domain-com-res-absolute.jpg",
-        "url": "/res/absolute.jpg"
-    },
-    {
-        "file_name": "relative.css",
-        "file_name_out": "this-domain-com-res-relative.css",
-        "url": "res/relative.css"
-    },
-    {
-        "file_name": "absolute.css",
-        "file_name_out": "this-domain-com-res-absolute.css",
-        "url": "/res/absolute.css"
-    },
-    {
-        "file_name": "relative.js",
-        "file_name_out": "this-domain-com-res-relative.js",
-        "url": "res/relative.js"
-    },
-    {
-        "file_name": "absolute.js",
-        "file_name_out": "this-domain-com-res-absolute.js",
-        "url": "/res/absolute.js"
-    },
-]
+HTML_NAME = "this-domain-com.html"
+FILES_DIR_NAME = "this-domain-com_files"
 
 map_status_to_route = {
     "500": "server-error",
@@ -56,20 +24,12 @@ map_status_to_route = {
     "403": "forbidden",
 }
 
+map_fs_code_to_error = {
+    "2": "No such file or directory",
+    "13": "Permission denied",
+}
 
-def get_path(file_name):
-    dir_path = pathlib.Path(__file__).absolute().parent
-    return os.path.join(dir_path, FIXTURES_DIR, file_name)
-
-
-def read_file(path, mode="r"):
-    with open(path, mode) as f:
-        result = f.read()
-    return result
-
-
-def read_fixture(file_name, mode="r"):
-    return read_file(get_path(file_name), mode)
+RESOURCES = json.loads(fixture.read('resources_list.json'))
 
 
 @pytest.mark.parametrize("status", map_status_to_route.keys())
@@ -83,35 +43,52 @@ def test_http_errors(requests_mock, status):
             download(url, output)
 
 
+def test_fs_such_dir_error(requests_mock):
+    html = fixture.read("expected.html")
+    requests_mock.get(URL, text=html)
+    with tempfile.TemporaryDirectory() as output:
+        with pytest.raises(FileNotFoundError):
+            download(URL, os.path.join(output, 'not_dir'))
+
+
+def test_fs_permission_error(requests_mock):
+    html = fixture.read("expected.html")
+    requests_mock.get(URL, text=html)
+    with tempfile.TemporaryDirectory() as output:
+        os.chmod(output, stat.S_ENFMT)
+        with pytest.raises(PermissionError):
+            download(URL, output)
+
+
 def test_page_loader(requests_mock):
     """Check that page loader is working correctly."""
-    html = read_fixture("sample_page.html")
+    html = fixture.read("expected.html")
     requests_mock.get(URL, text=html)
 
     for resource in RESOURCES:
-        file_name, file_name_out, url = resource.values()
-        resource_content = read_fixture(
-            os.path.join("res", file_name), "rb"
+        url = RESOURCES[resource]['url']
+        resource_content = fixture.read(
+            os.path.join("res", resource), "rb"
         )
         requests_mock.get(urljoin(URL, url), content=resource_content)
 
     with tempfile.TemporaryDirectory() as output:
-        html_path = os.path.join(output, OUT_HTML_NAME)
-        file_folder_path = os.path.join(output, RES_DIR_NAME)
+        html_path = os.path.join(output, HTML_NAME)
+        file_folder_path = os.path.join(output, FILES_DIR_NAME)
         output_path = download(URL, output)
-        html_content = read_file(html_path)
-        expected_html_content = read_fixture("sample_page_out.html")
+        html_content = file.read(html_path)
+        expected_html_content = fixture.read("expexted_downloads.html")
 
         assert output_path == html_path
         assert html_content == expected_html_content
         assert len(os.listdir(file_folder_path)) == len(RESOURCES)
 
         for resource in RESOURCES:
-            file_name, file_name_out, url = resource.values()
-            resource_path = os.path.join(file_folder_path, file_name_out)
-            fixture_resource_path = os.path.join("res", file_name)
-            resource_content = read_file(resource_path, "rb")
-            expected_resource_content = read_fixture(
+            file_name_out = RESOURCES[resource]['file_name_out']
+            file_path = os.path.join(file_folder_path, file_name_out)
+            fixture_resource_path = os.path.join("res", resource)
+            resource_content = file.read(file_path, "rb")
+            expected_resource_content = fixture.read(
                 fixture_resource_path, "rb"
             )
             assert resource_content == expected_resource_content

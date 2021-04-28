@@ -2,14 +2,14 @@
 import logging
 import sys
 
-from page_loader.argparse import parse_arguments
-from page_loader.comparator import download
+import page_loader.args as args
+from page_loader.page import download
 
 
 def main():
     try:
-        args = parse_arguments()
-        print(download(args.url, args.output))
+        arguments = args.parse()
+        print(download(arguments.url, arguments.output))
     except Exception as error:
         logging.error(error)
         sys.exit(1)
