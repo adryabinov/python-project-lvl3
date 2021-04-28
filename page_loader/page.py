@@ -24,7 +24,8 @@ def download(url, output=os.getcwd()):
     logging.info("Done.")
 
     logging.info("Preparing resources...")
-    resources, html = page_loader.resourse.prepare(response.text, url, file_folder_name)
+    resources, html = page_loader.resourse.prepare(
+        response.text, url, file_folder_name)
     logging.info("Done.")
 
     logging.info("Downloading resources:")
