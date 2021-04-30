@@ -30,15 +30,12 @@ def make_name(url: str, suffix=".html", replacer='-', is_dir=False):
 def prepare(html, url, folder_path):
 
     soup = BeautifulSoup(html, 'html.parser')
-    tags = []
-    for tag in MAP_TAG_TO_ATTR.keys():
-        tags.extend(soup.find_all(tag))
+    tags = [tag for tag in soup.find_all() if tag.name in MAP_TAG_TO_ATTR]
 
     links = []
     for tag in tags:
         attr = MAP_TAG_TO_ATTR[tag.name]
         link = tag.get(attr)
-
         if not link:
             continue
 
