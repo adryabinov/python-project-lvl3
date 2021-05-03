@@ -8,7 +8,6 @@ import requests
 from urllib.parse import urljoin
 from page_loader import download
 
-
 URL = "https://this-domain.com"
 HTML_NAME = "this-domain-com.html"
 RESOURCES_DIR_NAME = "this-domain-com_files"
