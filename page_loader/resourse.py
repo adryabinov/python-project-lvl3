@@ -5,6 +5,7 @@ from progress.bar import IncrementalBar
 import urllib.parse as urlp
 from bs4 import BeautifulSoup
 
+
 PATTERN = '[^a-zA-Z0-9]'
 
 MAP_TAG_TO_ATTR = {
