@@ -14,7 +14,11 @@ MAP_TAG_TO_ATTR = {
 }
 
 
-def make_name(url: str, suffix=".html", replacer='-', pattern=PATTERN ,  is_dir=False):
+def make_name(url: str,
+              suffix=".html",
+              replacer='-',
+              pattern=PATTERN,
+              is_dir=False):
 
     parsed_url = urlp.urlparse(url)
     path, ext = os.path.splitext(parsed_url.path)
