@@ -42,7 +42,7 @@ def get_path(file_name):
 def read_fixture(fixture_name, mode="r"):
     return read_file(get_path(fixture_name), mode)
 
-  
+
 RESOURCES = json.loads(read_fixture('resources_list.json'))
 
 
@@ -55,8 +55,8 @@ def test_http_errors(requests_mock, status):
     with tempfile.TemporaryDirectory() as output:
         with pytest.raises(requests.exceptions.HTTPError):
             download(url, output)
-            
-        
+
+
 def test_not_found_error(requests_mock):
     html = read_fixture("expected.html")
     requests_mock.get(URL, text=html)
@@ -76,7 +76,7 @@ def test_not_dir_error(requests_mock):
 
 def test_fs_permission_error(requests_mock):
     html = read_fixture("expected.html")
-    
+
     requests_mock.get(URL, text=html)
     with tempfile.TemporaryDirectory() as output:
         os.chmod(output, stat.S_ENFMT)
@@ -101,7 +101,7 @@ def test_page_loader(requests_mock):
         output_path = download(URL, output)
         html_content = read_file(html_path)
         expected_html_content = read_fixture("expected_uploaded.html")
-        
+
         assert output_path == html_path
         assert html_content == expected_html_content
         assert len(os.listdir(resources_dir_path)) == len(RESOURCES)
