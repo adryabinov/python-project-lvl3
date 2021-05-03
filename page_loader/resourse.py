@@ -5,6 +5,7 @@ from progress.bar import IncrementalBar
 import urllib.parse as urlp
 from bs4 import BeautifulSoup
 
+
 PATTERN = '[^a-zA-Z0-9]'
 
 MAP_TAG_TO_ATTR = {
@@ -34,10 +35,11 @@ def make_name(url: str,
 
 def prepare(html, url, folder_path):
 
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(html, 'html.parser'
+                         
     tags = [tag for tag in soup.find_all() if tag.name in MAP_TAG_TO_ATTR]
+  
     links = []
-
     for tag in tags:
         attr = MAP_TAG_TO_ATTR[tag.name]
         link = tag.get(attr)
@@ -76,8 +78,8 @@ def download(resource, output):
             for data in response.iter_content(block_size):
                 file.write(data)
                 bar.next()
-
-
+                
+                
 def save(content, path: str, mode="w+"):
     with open(path, mode) as f:
         return f.write(content)
