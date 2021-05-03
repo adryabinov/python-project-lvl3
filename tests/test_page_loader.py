@@ -8,6 +8,7 @@ import requests
 from urllib.parse import urljoin
 from page_loader import download
 
+
 URL = "https://this-domain.com"
 HTML_NAME = "this-domain-com.html"
 RESOURCES_DIR_NAME = "this-domain-com_files"
@@ -42,7 +43,7 @@ def read_fixture(fixture_name, mode="r"):
     return read_file(get_path(fixture_name), mode)
 
   
-RESOURCES = json.loads(fixture.read('resources_list.json'))
+RESOURCES = json.loads(read_fixture('resources_list.json'))
 
 
 @pytest.mark.parametrize("status", map_status_to_route.keys())
