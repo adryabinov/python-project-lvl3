@@ -1,27 +1,27 @@
 
 {
   "relative.jpg": {
-    "file_name_out": "this-domain-com-res-relative.jpg",
+    "name_uploaded": "this-domain-com-res-relative.jpg",
     "url": "/res/relative.jpg"
   },
   "absolute.jpg": {
-    "file_name_out": "this-domain-com-res-absolute.jpg",
+    "name_uploaded": "this-domain-com-res-absolute.jpg",
     "url": "/res/absolute.jpg"
   },
   "relative.css": {
-    "file_name_out": "this-domain-com-res-relative.css",
+    "name_uploaded": "this-domain-com-res-relative.css",
     "url": "res/relative.css"
   },
   "absolute.css": {
-    "file_name_out": "this-domain-com-res-absolute.css",
+    "name_uploaded": "this-domain-com-res-absolute.css",
     "url": "/res/absolute.css"
   },
   "relative.js": {
-    "file_name_out": "this-domain-com-res-relative.js",
+    "name_uploaded": "this-domain-com-res-relative.js",
     "url": "res/relative.js"
   },
   "absolute.js": {
-    "file_name_out": "this-domain-com-res-absolute.js",
+    "name_uploaded": "this-domain-com-res-absolute.js",
     "url": "/res/absolute.js"
   }
 }
