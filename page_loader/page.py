@@ -34,6 +34,6 @@ def download(url, output=os.getcwd()):
 
     logging.info(f"Saving html to {html_path}")
     page_loader.resourse.save(html, html_path)
-    page_loader.file.save(html, html_path)
+    page_loader.resourse.save(html, html_path)
     logging.info("Done.")
     return html_path
