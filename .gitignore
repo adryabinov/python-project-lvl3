@@ -1,2 +1,7 @@
-/.coverage
-/coverage.xml
+.coverage
+coverage.xml
+.venv/*
+.vscode/*
+.idea/*
+dist/*
+__pycache__/*
