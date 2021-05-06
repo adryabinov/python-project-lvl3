@@ -22,11 +22,6 @@ map_status_to_route = {
     "403": "forbidden",
 }
 
-map_fs_code_to_error = {
-    "2": "No such file or directory",
-    "13": "Permission denied",
-}
-
 
 def read_file(path, mode="r"):
     with open(path, mode) as f:
@@ -43,7 +38,7 @@ def read_fixture(fixture_name, mode="r"):
     return read_file(get_path(fixture_name), mode)
 
 
-RESOURCES = json.loads(read_fixture('resources_list.json'))
+RESOURCES = json.loads(read_fixture('resources.json'))
 
 
 @pytest.mark.parametrize("status", map_status_to_route.keys())
@@ -58,7 +53,7 @@ def test_http_errors(requests_mock, status):
 
 
 def test_not_found_error(requests_mock):
-    html = read_fixture("expected.html")
+    html = read_fixture("mock.html")
     requests_mock.get(URL, text=html)
     with tempfile.TemporaryDirectory() as output:
         with pytest.raises(FileNotFoundError):
@@ -66,7 +61,7 @@ def test_not_found_error(requests_mock):
 
 
 def test_not_dir_error(requests_mock):
-    html = read_fixture("expected.html")
+    html = read_fixture("mock.html")
     requests_mock.get(URL, text=html)
     with tempfile.TemporaryDirectory() as output:
         _, tmp_path = tempfile.mkstemp(dir=os.path.abspath(output))
@@ -75,8 +70,7 @@ def test_not_dir_error(requests_mock):
 
 
 def test_fs_permission_error(requests_mock):
-    html = read_fixture("expected.html")
-
+    html = read_fixture("mock.html")
     requests_mock.get(URL, text=html)
     with tempfile.TemporaryDirectory() as output:
         os.chmod(output, stat.S_ENFMT)
@@ -85,7 +79,7 @@ def test_fs_permission_error(requests_mock):
 
 
 def test_page_loader(requests_mock):
-    html = read_fixture("expected.html")
+    html = read_fixture("mock.html")
     requests_mock.get(URL, text=html)
 
     for resource in RESOURCES:
@@ -100,17 +94,17 @@ def test_page_loader(requests_mock):
         resources_dir_path = os.path.join(output, RESOURCES_DIR_NAME)
         output_path = download(URL, output)
         html_content = read_file(html_path)
-        expected_html_content = read_fixture("expected_uploaded.html")
+        expected_html_content = read_fixture("uploaded.html")
 
         assert output_path == html_path
         assert html_content == expected_html_content
         assert len(os.listdir(resources_dir_path)) == len(RESOURCES)
 
         for resource in RESOURCES:
-            name_uploaded = RESOURCES[resource]["name_uploaded"]
-            path_uploaded = os.path.join(resources_dir_path, name_uploaded)
+            uploaded_name = RESOURCES[resource]["uploaded_name"]
+            uploaded_path = os.path.join(resources_dir_path, uploaded_name)
             fixture_resource_path = os.path.join("res", resource)
-            resource_content = read_file(path_uploaded, "rb")
+            resource_content = read_file(uploaded_path, "rb")
             expected_resource_content = read_fixture(
                 fixture_resource_path, "rb"
             )

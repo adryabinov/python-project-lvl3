@@ -1,0 +1,27 @@
+
+{
+  "relative.jpg": {
+    "uploaded_name": "this-domain-com-res-relative.jpg",
+    "url": "/res/relative.jpg"
+  },
+  "absolute.jpg": {
+    "uploaded_name": "this-domain-com-res-absolute.jpg",
+    "url": "/res/absolute.jpg"
+  },
+  "relative.css": {
+    "uploaded_name": "this-domain-com-res-relative.css",
+    "url": "res/relative.css"
+  },
+  "absolute.css": {
+    "uploaded_name": "this-domain-com-res-absolute.css",
+    "url": "/res/absolute.css"
+  },
+  "relative.js": {
+    "uploaded_name": "this-domain-com-res-relative.js",
+    "url": "res/relative.js"
+  },
+  "absolute.js": {
+    "uploaded_name": "this-domain-com-res-absolute.js",
+    "url": "/res/absolute.js"
+  }
+}
