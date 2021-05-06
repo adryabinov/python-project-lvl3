@@ -94,14 +94,14 @@ def test_page_loader(requests_mock):
         resources_dir_path = os.path.join(output, RESOURCES_DIR_NAME)
         output_path = download(URL, output)
         html_content = read_file(html_path)
-        expected_html_content = read_fixture("uploaded.html")
+        expected_html_content = read_fixture("expected.html")
 
         assert output_path == html_path
         assert html_content == expected_html_content
         assert len(os.listdir(resources_dir_path)) == len(RESOURCES)
 
         for resource in RESOURCES:
-            uploaded_name = RESOURCES[resource]["uploaded_name"]
+            uploaded_name = RESOURCES[resource]["expected_name"]
             uploaded_path = os.path.join(resources_dir_path, uploaded_name)
             fixture_resource_path = os.path.join("res", resource)
             resource_content = read_file(uploaded_path, "rb")
