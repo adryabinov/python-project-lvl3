@@ -53,7 +53,7 @@ def test_http_errors(requests_mock, status):
 
 
 def test_not_found_error(requests_mock):
-    html = read_fixture("mock.html")
+    html = read_fixture("index.html")
     requests_mock.get(URL, text=html)
     with tempfile.TemporaryDirectory() as output:
         with pytest.raises(FileNotFoundError):
@@ -61,7 +61,7 @@ def test_not_found_error(requests_mock):
 
 
 def test_not_dir_error(requests_mock):
-    html = read_fixture("mock.html")
+    html = read_fixture("index.html")
     requests_mock.get(URL, text=html)
     with tempfile.TemporaryDirectory() as output:
         _, tmp_path = tempfile.mkstemp(dir=os.path.abspath(output))
@@ -70,7 +70,7 @@ def test_not_dir_error(requests_mock):
 
 
 def test_fs_permission_error(requests_mock):
-    html = read_fixture("mock.html")
+    html = read_fixture("index.html")
     requests_mock.get(URL, text=html)
     with tempfile.TemporaryDirectory() as output:
         os.chmod(output, stat.S_ENFMT)
@@ -79,7 +79,7 @@ def test_fs_permission_error(requests_mock):
 
 
 def test_page_loader(requests_mock):
-    html = read_fixture("mock.html")
+    html = read_fixture("index.html")
     requests_mock.get(URL, text=html)
 
     for resource in RESOURCES:
@@ -94,7 +94,7 @@ def test_page_loader(requests_mock):
         resources_dir_path = os.path.join(output, RESOURCES_DIR_NAME)
         output_path = download(URL, output)
         html_content = read_file(html_path)
-        expected_html_content = read_fixture("expected.html")
+        expected_html_content = read_fixture("expected-index.html")
 
         assert output_path == html_path
         assert html_content == expected_html_content
