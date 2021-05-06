@@ -84,10 +84,10 @@ def test_page_loader(requests_mock):
 
     for resource in RESOURCES:
         url = RESOURCES[resource]["url"]
-        resource_content = read_fixture(
+        output_content = read_fixture(
             os.path.join("res", resource), "rb"
         )
-        requests_mock.get(urljoin(URL, url), content=resource_content)
+        requests_mock.get(urljoin(URL, url), content=output_content)
 
     with tempfile.TemporaryDirectory() as output:
         html_path = os.path.join(output, HTML_NAME)
@@ -101,11 +101,11 @@ def test_page_loader(requests_mock):
         assert len(os.listdir(resources_dir_path)) == len(RESOURCES)
 
         for resource in RESOURCES:
-            uploaded_name = RESOURCES[resource]["expected_name"]
-            uploaded_path = os.path.join(resources_dir_path, uploaded_name)
-            fixture_resource_path = os.path.join("res", resource)
-            resource_content = read_file(uploaded_path, "rb")
-            expected_resource_content = read_fixture(
-                fixture_resource_path, "rb"
+            output_name = RESOURCES[resource]["expected_name"]
+            output_path = os.path.join(resources_dir_path, output_name)
+            fixture_path = os.path.join("res", resource)
+            output_content = read_file(output_path, "rb")
+            expected_content = read_fixture(
+                fixture_path, "rb"
             )
-            assert resource_content == expected_resource_content
+            assert output_content == expected_content
